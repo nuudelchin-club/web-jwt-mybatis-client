@@ -28,6 +28,7 @@ function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userData, setUserData] = useState({});
+  const [timeData, setTimeData] = useState({});
   const [logout, setLogout] = useState(false);
 
   useEffect(() => {
@@ -115,23 +116,46 @@ function Home() {
     }
   };
 
+  const onTimeAPI = async () => {console.log("onTimeAPI")
+    try {
+      const accessToken = await refreshAccessToken();
+      if(accessToken) {
+        fetch("http://localhost:8080/time", {
+          method: "GET",
+          credentials: "include",
+          headers: { 
+            'Content-Type': 'application/json', 
+            'access' : accessToken
+          },
+        })
+        .then((response) => { 
+          if (response.ok) { 
+            return response.json(); 
+          }
+        })
+        .then((data) => { console.log("timeData", data)
+          setTimeData(data);
+        })
+        .catch((error) => { console.error('Error:', error); })
+      } 
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+    }
+  };
+
+  const resetTime = () => {
+    onTimeAPI();
+  }
+
   if(authorized === 1) {
     
-    // return (
-    //   <div>
-    //     <h1>Main page</h1>
-    //     <h3>{userData.username}</h3>
-    //     <h3>{userData.role}</h3>        
-    //     <button onClick={onLogout}>logout</button>        
-    //   </div>
-    // );
-
     return (
       <div className="flex flex-col min-h-screen">
         <Header setLogout={setLogout}/>
         <div className="flex flex-1">
           <Nav />
-          <Body prop={userData}/>
+          <Body user={userData} resetTime={resetTime} time={timeData}/>
           <Side />
         </div>
         <Footer />
@@ -192,29 +216,6 @@ function Home() {
           </p>
         </div>
       </div>
-
-      // <form onSubmit={onLogin}>
-      //   <h1>Нэвтрэх</h1>
-      //   <hr></hr>
-      //   <br></br>
-      //   <input
-      //     type="text"
-      //     placeholder="username"
-      //     value={username}
-      //     onChange={(e) => setUsername(e.target.value)}
-      //     className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-      //   />
-      //   <br></br><br></br>
-      //   <input
-      //     type="password"
-      //     placeholder="password"
-      //     value={password}
-      //     onChange={(e) => setPassword(e.target.value)}
-      //     className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-      //   />
-      //   <br></br><br></br>
-      //   <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">login</button>
-      // </form>
     );
 
   } else {
