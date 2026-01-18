@@ -32,6 +32,10 @@ export default function Home() {
         navigate("/login");
     }
 
+    const handleJoin = () => {
+        navigate("/join");
+    }
+
     return (
         <div>
             <h1>Home</h1>
@@ -41,6 +45,9 @@ export default function Home() {
             </div>
             <div>
                 <button onClick={handleLogin}>Go To Login</button>
+            </div>
+            <div>
+                <button onClick={handleJoin}>Go To Join</button>
             </div>
         </div>
     );
