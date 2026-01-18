@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import ApiService from "../services/ApiService";
 
 export default function Home() {
 
@@ -8,7 +9,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:8080/")
+        fetch(`${ApiService.apiUrl}/`)
             .then(async (response) => {
                 if (!response.ok) {
                     const text = await response.text();

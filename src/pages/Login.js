@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import ApiService from "../services/ApiService";
 
 export default function Login() {
 
@@ -18,7 +19,7 @@ export default function Login() {
         setError("");
 
         try {
-            const response = await fetch('http://localhost:8080/login', {
+            const response = await fetch(`${ApiService.apiUrl}/login`, {
                 method: 'POST',
                 credentials: "include",
                 headers: { 

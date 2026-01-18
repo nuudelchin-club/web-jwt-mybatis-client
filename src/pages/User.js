@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { authFetch } from "../utils/authFetch";
+import ApiService from "../services/ApiService";
 
 export default function User() {
     
@@ -14,7 +14,7 @@ export default function User() {
 
     const fetchUser = async () => {
         try {
-            const response = await authFetch("/user", { method: "GET" });
+            const response = await ApiService.request("/user", { method: "GET" });
 
             if (!response.ok) {
                 throw new Error("Failed to fetch user");

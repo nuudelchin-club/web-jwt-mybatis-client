@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import ApiService from "../services/ApiService";
 
 const AuthContext = createContext();
 
@@ -9,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const login = (userData) => setUser(userData);
     const logout = async () => {
         try {
-            await fetch("http://localhost:8080/logout", {
+            await fetch(`${ApiService.apiUrl}/logout`, {
                 method: "POST",
                 credentials: "include",
             });

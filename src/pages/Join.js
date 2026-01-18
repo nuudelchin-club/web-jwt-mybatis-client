@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import ApiService from "../services/ApiService";
 
 export default function Login() {
 
@@ -16,7 +17,7 @@ export default function Login() {
         setSuccess("");
 
         try {
-            const response = await fetch("http://localhost:8080/join", {
+            const response = await fetch(`${ApiService.apiUrl}/join`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
