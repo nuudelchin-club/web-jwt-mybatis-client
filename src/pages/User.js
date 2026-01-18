@@ -7,16 +7,26 @@ export default function User() {
     
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-
-console.log("Current User:", user);
     
     useEffect(() => {
-        authFetch("/user", {
-                method: "GET",
-            })
-            .then(res => res.json())
-            .then(data => console.log(data));
-    }, []);
+        fetchUser();
+    }, [logout, navigate]);
+
+    const fetchUser = async () => {
+        try {
+            const response = await authFetch("/user", { method: "GET" });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch user");
+            }
+
+            const data = await response.json();
+            console.log(data);
+        } catch (err) {
+            console.error(err);
+            navigate("/login");   
+        }
+    };
 
     const handleHome = () => {
         navigate("/");
